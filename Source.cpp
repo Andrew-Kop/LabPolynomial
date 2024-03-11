@@ -61,6 +61,24 @@ void List<T>::insert(T data, size_t index)
 }
 
 template<typename T>
+void List<T>::removeAt(size_t index)
+{
+	if (index == 0) {
+		pop_front();
+	}
+	else {
+		Node<T>* previos = this->head;
+		for (int i = 0; i < index - 1; i++) {
+			previous = previous->pNext;
+		}
+		Node<T>* toDelete = previos->pNext;
+		previos->pNext = toDelete->pNext;
+		delete toDelete;
+		size--;
+	}
+}
+
+template<typename T>
 void List<T>::pop_front()
 {
 	Node<T>* temp = head;
@@ -70,12 +88,19 @@ void List<T>::pop_front()
 }
 
 template<typename T>
+void List<T>::pop_back()
+{
+	removeAt(size - 1);
+}
+
+template<typename T>
 void List<T>::clear()
 {
 	while (size) {
 		pop_front();
 	}
 }
+
 
 template<typename T>
 T& List<T>::operator[](const int index)
@@ -91,6 +116,15 @@ T& List<T>::operator[](const int index)
 	}
 }
 
+template<typename T>
+ostream& List<T>::operator<<(ostream& os, const List& list)
+{
+	for (int i = 0; i < size; i++) {
+		os << list[i].data;
+	}
+	return os;
+}
+
 
 int main() {
 	setlocale(LC_ALL, "ru");
@@ -99,5 +133,6 @@ int main() {
 	first.push_back(5);
 	first.push_back(10);
 	first.push_back(22);
+	cout << first;
 	return 0;
 }
